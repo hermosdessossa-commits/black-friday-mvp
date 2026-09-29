@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
+import CartSidebar from "@/components/CartSidebar";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,7 +20,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" className={inter.variable}>
       <body className="font-sans antialiased bg-bg text-text">
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          <div className="hidden lg:grid lg:grid-cols-[1fr_384px] min-h-screen">
+            <main className="min-w-0">{children}</main>
+            <CartSidebar />
+          </div>
+          <div className="lg:hidden">{children}</div>
+        </CartProvider>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default function Header() {
           </h1>
           <button
             onClick={() => setCartOpen(true)}
-            className="relative p-2 text-text-muted hover:text-text transition-colors duration-fast rounded-btn hover:bg-bg-muted"
+            className="lg:hidden relative p-2 text-text-muted hover:text-text transition-colors duration-fast rounded-btn hover:bg-bg-muted"
             aria-label="Ouvrir le panier"
           >
             <ShoppingCart className="w-5 h-5" />

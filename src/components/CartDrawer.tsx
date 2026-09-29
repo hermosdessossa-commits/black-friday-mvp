@@ -22,7 +22,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col md:flex-row-reverse" role="dialog" aria-modal="true">
+    <div className="lg:hidden fixed inset-0 z-50 flex flex-col md:flex-row-reverse" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-black/20 md:hidden animate-fade-in" onClick={onClose} aria-hidden="true" />
       <aside className="w-full md:w-96 bg-white shadow-2xl flex flex-col max-h-[90vh] animate-slide-in border-l border-gray-100">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
