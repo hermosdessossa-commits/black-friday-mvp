@@ -24,7 +24,7 @@ export default function CartSidebar() {
   };
 
   return (
-    <aside className="w-96 bg-white border-l border-gray-100 flex flex-col h-screen sticky top-0 animate-slide-in">
+    <aside className="fixed inset-y-0 right-0 z-50 w-96 bg-white border-l border-gray-100 flex flex-col animate-slide-in">
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
         <h2 className="text-lg font-medium text-gray-900 tracking-tight">
           Panier
