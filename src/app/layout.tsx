@@ -23,11 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased bg-bg text-text">
         <CartProvider>
           <CartUIProvider>
-            <div className="hidden lg:flex lg:min-h-screen transition-all duration-300">
-              <main className="flex-1 min-w-0 lg:overflow-auto">{children}</main>
-              <CartSidebar />
+            <CartSidebar />
+            <div className="lg:pl-96 min-h-screen transition-all duration-300">
+              {children}
             </div>
-            <div className="lg:hidden">{children}</div>
           </CartUIProvider>
         </CartProvider>
       </body>
