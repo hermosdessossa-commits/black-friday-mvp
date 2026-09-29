@@ -3,8 +3,8 @@ import { ChevronRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="py-20 sm:py-28 lg:py-32 px-4 bg-bg border-b border-border">
-      <div className="max-w-5xl mx-auto text-center">
+    <section className="py-16 sm:py-20 lg:py-24 px-4 bg-bg border-b border-border">
+      <div className="max-w-[calc(100%-384px)] lg:max-w-full mx-auto text-center">
         <span className="inline-block px-3 py-1 text-xs font-medium text-text-faint uppercase tracking-wider mb-6">
           Black Friday
         </span>

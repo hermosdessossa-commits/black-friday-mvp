@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
 import { CartUIProvider } from "@/lib/cart-ui-context";
 import CartSidebar from "@/components/CartSidebar";
+import MainWrapper from "@/components/MainWrapper";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,9 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CartProvider>
           <CartUIProvider>
             <CartSidebar />
-            <div className="lg:pl-96 min-h-screen transition-all duration-300">
-              {children}
-            </div>
+            <MainWrapper>{children}</MainWrapper>
           </CartUIProvider>
         </CartProvider>
       </body>
