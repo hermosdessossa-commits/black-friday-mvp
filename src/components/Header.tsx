@@ -1,20 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getCartCount } from "@/lib/cart";
+import { useState } from "react";
+import { useCart } from "@/lib/cart-context";
 import CartDrawer from "./CartDrawer";
 import { ShoppingCart } from "lucide-react";
 
 export default function Header() {
+  const { count } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const update = () => setCount(getCartCount());
-    update();
-    window.addEventListener("cart-update", update);
-    return () => window.removeEventListener("cart-update", update);
-  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-bg/95 backdrop-blur-sm border-b border-border">

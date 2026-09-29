@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@/lib/products";
-import { addToCart } from "@/lib/cart";
+import { useCart } from "@/lib/cart-context";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 
@@ -10,6 +10,8 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { addItem } = useCart();
+
   return (
     <article className="card card-hover group">
       <div className="relative aspect-square overflow-hidden bg-bg-muted">
@@ -27,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span className="text-lg font-semibold text-text">{product.price}€</span>
         </div>
         <button
-          onClick={() => addToCart(product)}
+          onClick={() => addItem(product)}
           className="w-full btn-outline gap-1.5 justify-center group-hover:border-primary group-hover:text-primary"
         >
           <Plus className="w-4 h-4" aria-hidden="true" />

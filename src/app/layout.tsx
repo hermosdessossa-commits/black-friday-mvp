@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { CartProvider } from "@/lib/cart-context";
 import "./globals.css";
 
 const inter = Inter({
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" className={inter.variable}>
       <body className="font-sans antialiased bg-bg text-text">
-        {children}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

@@ -1,32 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { getCart, CartItem, removeFromCart, updateQuantity, getCartTotal, clearCart } from "@/lib/cart";
+import { useState } from "react";
+import { useCart } from "@/lib/cart-context";
 import { createCheckoutSession } from "@/lib/stripe";
 import Image from "next/image";
 import { X, Plus, Minus, Trash2, CreditCard } from "lucide-react";
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [total, setTotal] = useState(0);
+  const { items, total, removeItem, updateQuantity, clear } = useCart();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const updateCart = () => {
-      const currentCart = getCart();
-      setCart(currentCart);
-      setTotal(getCartTotal());
-    };
-    updateCart();
-    window.addEventListener("cart-update", updateCart);
-    return () => window.removeEventListener("cart-update", updateCart);
-  }, []);
 
   const handleCheckout = async () => {
     setLoading(true);
-    const items = cart.map(item => ({ productId: item.product.id, quantity: item.quantity }));
-    const url = await createCheckoutSession(items);
-    clearCart();
+    const checkoutItems = items.map(item => ({ productId: item.product.id, quantity: item.quantity }));
+    const url = await createCheckoutSession(checkoutItems);
+    clear();
     setLoading(false);
     window.location.href = url;
   };
@@ -39,18 +27,18 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
       <aside className="w-full md:w-96 bg-surface shadow-drawer flex flex-col h-full animate-slide-in">
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-medium text-text">
-            Panier ({cart.reduce((s, i) => s + i.quantity, 0)})
+            Panier ({items.reduce((s, i) => s + i.quantity, 0)})
           </h2>
           <button onClick={onClose} className="btn-ghost p-2" aria-label="Fermer">
             <X className="w-5 h-5" />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
-          {cart.length === 0 ? (
+          {items.length === 0 ? (
             <p className="text-center text-text-muted py-12">Votre panier est vide</p>
           ) : (
             <ul className="space-y-4">
-              {cart.map(item => (
+              {items.map(item => (
                 <li key={item.product.id} className="flex gap-3">
                   <Image
                     src={item.product.image}
@@ -79,7 +67,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                         <Plus className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => removeFromCart(item.product.id)}
+                        onClick={() => removeItem(item.product.id)}
                         className="ml-auto btn-ghost text-text-muted hover:text-text"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -91,7 +79,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
             </ul>
           )}
         </div>
-        {cart.length > 0 && (
+        {items.length > 0 && (
           <div className="border-t border-border p-4 space-y-3">
             <div className="flex justify-between text-text">
               <span className="font-medium">Total</span>
@@ -106,7 +94,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
               {loading ? "Redirection..." : `Payer ${total}€`}
             </button>
             <button
-              onClick={clearCart}
+              onClick={clear}
               className="btn-ghost w-full"
             >
               Vider le panier
