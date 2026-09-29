@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { getCart, CartItem, removeFromCart, updateQuantity, getCartTotal, clearCart } from "@/lib/cart";
 import { createCheckoutSession } from "@/lib/stripe";
 import Image from "next/image";
+import { X, Plus, Minus, Trash2, CreditCard } from "lucide-react";
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -34,17 +35,19 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col md:flex-row-reverse" role="dialog" aria-modal="true">
-      <div className="fixed inset-0 bg-black/50 md:hidden" onClick={onClose} aria-hidden="true" />
-      <aside className="w-full md:w-96 bg-white dark:bg-gray-900 shadow-2xl flex flex-col h-full animate-slide-in">
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Panier ({cart.reduce((s, i) => s + i.quantity, 0)})</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+      <div className="fixed inset-0 bg-black/30 md:hidden animate-fade-in" onClick={onClose} aria-hidden="true" />
+      <aside className="w-full md:w-96 bg-surface shadow-drawer flex flex-col h-full animate-slide-in">
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h2 className="text-base font-medium text-text">
+            Panier ({cart.reduce((s, i) => s + i.quantity, 0)})
+          </h2>
+          <button onClick={onClose} className="btn-ghost p-2" aria-label="Fermer">
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
           {cart.length === 0 ? (
-            <p className="text-center text-gray-500 dark:text-gray-400 py-12">Votre panier est vide</p>
+            <p className="text-center text-text-muted py-12">Votre panier est vide</p>
           ) : (
             <ul className="space-y-4">
               {cart.map(item => (
@@ -52,29 +55,35 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                   <Image
                     src={item.product.image}
                     alt={item.product.name}
-                    width={60}
-                    height={60}
-                    className="rounded-lg object-cover bg-gray-100 dark:bg-gray-800"
+                    width={56}
+                    height={56}
+                    className="rounded-lg object-cover bg-bg-muted"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 dark:text-white truncate">{item.product.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{item.product.price}€</p>
-                    <div className="flex items-center gap-2 mt-1">
+                    <p className="font-medium text-text truncate">{item.product.name}</p>
+                    <p className="text-sm text-text-muted">{item.product.price}€</p>
+                    <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="w-8 h-8 rounded border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="btn-ghost p-1.5 w-8 h-8"
                         aria-label="Diminuer"
-                      >−</button>
-                      <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="w-8 text-center text-sm font-medium text-text">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="w-8 h-8 rounded border border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="btn-ghost p-1.5 w-8 h-8"
                         aria-label="Augmenter"
-                      >+</button>
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
                       <button
                         onClick={() => removeFromCart(item.product.id)}
-                        className="ml-auto text-gray-400 hover:text-red-600 dark:hover:text-red-400 text-sm"
-                      >Supprimer</button>
+                        className="ml-auto btn-ghost text-text-muted hover:text-text"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
                 </li>
@@ -83,21 +92,22 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           )}
         </div>
         {cart.length > 0 && (
-          <div className="border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
-            <div className="flex justify-between text-gray-900 dark:text-white">
-              <span>Total</span>
-              <span className="font-bold text-lg">{total}€</span>
+          <div className="border-t border-border p-4 space-y-3">
+            <div className="flex justify-between text-text">
+              <span className="font-medium">Total</span>
+              <span className="font-semibold text-lg">{total}€</span>
             </div>
             <button
               onClick={handleCheckout}
               disabled={loading}
-              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-3 rounded-lg transition-colors"
+              className="btn-primary w-full gap-2 justify-center disabled:opacity-50"
             >
+              <CreditCard className="w-4 h-4" aria-hidden="true" />
               {loading ? "Redirection..." : `Payer ${total}€`}
             </button>
             <button
               onClick={clearCart}
-              className="w-full text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              className="btn-ghost w-full"
             >
               Vider le panier
             </button>
