@@ -5,11 +5,11 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <span className="inline-block px-4 py-1.5 rounded-full bg-red-600/20 text-red-400 text-sm font-medium mb-6 border border-red-600/30">
-          BLACK FRIDAY • Jusqu'à -50%
+          BLACK FRIDAY • Jusqu&apos;à -50%
         </span>
         <h1 className="text-5xl sm:text-7xl font-black text-white tracking-tight mb-6 leading-tight">
           Les meilleures offres<br />
-          <span className="text-red-500">de l'année</span>
+          <span className="text-red-500">de l&apos;année</span>
         </h1>
         <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto mb-10">
           Profitez de réductions exceptionnelles sur une sélection de produits high-tech, sport et maison.

@@ -15,7 +15,7 @@ export const products: Product[] = [
     price: 199,
     originalPrice: 279,
     discount: 29,
-    image: "/Image/air pod.webp",
+    image: "/Image/air-pod.webp",
     category: "Audio"
   },
   {
@@ -24,7 +24,7 @@ export const products: Product[] = [
     price: 89,
     originalPrice: 149,
     discount: 40,
-    image: "/Image/ecouteur sans fil.webp",
+    image: "/Image/ecouteur-sans-fil.webp",
     category: "Audio"
   },
   {

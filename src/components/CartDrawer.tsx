@@ -7,10 +7,15 @@ import Image from "next/image";
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const updateCart = () => setCart(getCart());
+    const updateCart = () => {
+      const currentCart = getCart();
+      setCart(currentCart);
+      setTotal(getCartTotal());
+    };
     updateCart();
     window.addEventListener("cart-update", updateCart);
     return () => window.removeEventListener("cart-update", updateCart);
@@ -81,14 +86,14 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
           <div className="border-t border-gray-200 dark:border-gray-700 p-4 space-y-3">
             <div className="flex justify-between text-gray-900 dark:text-white">
               <span>Total</span>
-              <span className="font-bold text-lg">{getCartTotal()}€</span>
+              <span className="font-bold text-lg">{total}€</span>
             </div>
             <button
               onClick={handleCheckout}
               disabled={loading}
               className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-3 rounded-lg transition-colors"
             >
-              {loading ? "Redirection..." : `Payer ${getCartTotal()}€`}
+              {loading ? "Redirection..." : `Payer ${total}€`}
             </button>
             <button
               onClick={clearCart}
