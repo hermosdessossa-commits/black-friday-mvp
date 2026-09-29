@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
+import { CartUIProvider } from "@/lib/cart-ui-context";
 import CartSidebar from "@/components/CartSidebar";
 import "./globals.css";
 
@@ -21,11 +22,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={inter.variable}>
       <body className="font-sans antialiased bg-bg text-text">
         <CartProvider>
-          <div className="hidden lg:grid lg:grid-cols-[1fr_384px] min-h-screen">
-            <main className="min-w-0">{children}</main>
-            <CartSidebar />
-          </div>
-          <div className="lg:hidden">{children}</div>
+          <CartUIProvider>
+            <div className="hidden lg:flex lg:min-h-screen transition-all duration-300">
+              <main className="flex-1 min-w-0 lg:overflow-auto">{children}</main>
+              <CartSidebar />
+            </div>
+            <div className="lg:hidden">{children}</div>
+          </CartUIProvider>
         </CartProvider>
       </body>
     </html>

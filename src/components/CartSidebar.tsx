@@ -1,14 +1,18 @@
 "use client";
 
 import { useCart } from "@/lib/cart-context";
+import { useCartUI } from "@/lib/cart-ui-context";
 import { createCheckoutSession } from "@/lib/stripe";
 import Image from "next/image";
-import { Plus, Minus, Trash2, CreditCard, ShoppingBag } from "lucide-react";
+import { Plus, Minus, Trash2, CreditCard, ShoppingBag, X } from "lucide-react";
 import { useState } from "react";
 
 export default function CartSidebar() {
   const { items, total, removeItem, updateQuantity, clear } = useCart();
+  const { isSidebarOpen, closeSidebar } = useCartUI();
   const [loading, setLoading] = useState(false);
+
+  if (!isSidebarOpen) return null;
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -20,12 +24,19 @@ export default function CartSidebar() {
   };
 
   return (
-    <aside className="bg-white border-l border-gray-100 flex flex-col h-screen sticky top-0">
-      <div className="px-5 py-4 border-b border-gray-100 flex-shrink-0">
+    <aside className="w-96 bg-white border-l border-gray-100 flex flex-col h-screen sticky top-0 animate-slide-in">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
         <h2 className="text-lg font-medium text-gray-900 tracking-tight">
           Panier
           <span className="ml-2 text-sm font-normal text-gray-400">({items.reduce((s, i) => s + i.quantity, 0)})</span>
         </h2>
+        <button
+          onClick={closeSidebar}
+          className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors lg:block hidden"
+          aria-label="Fermer le panier"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
       <div className="flex-1 overflow-y-auto px-5 py-4">
         {items.length === 0 ? (
