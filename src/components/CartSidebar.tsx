@@ -2,13 +2,14 @@
 
 import { useCart } from "@/lib/cart-context";
 import { useCartUI } from "@/lib/cart-ui-context";
-import { createCheckoutSession } from "@/lib/stripe";
+import { createCheckoutSession } from "@/lib/checkout";
 import Image from "next/image";
-import { Plus, Minus, Trash2, CreditCard, ShoppingBag, X } from "lucide-react";
+import { Plus, Minus, Trash2, CreditCard, ShoppingBag, X, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import { MAX_QTY_PER_ITEM } from "@/lib/config";
 
 export default function CartSidebar() {
-  const { items, total, removeItem, updateQuantity, clear } = useCart();
+  const { items, total, count, removeItem, updateQuantity, clear } = useCart();
   const { isSidebarOpen, closeSidebar } = useCartUI();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +29,7 @@ export default function CartSidebar() {
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
         <h2 className="text-lg font-medium text-gray-900 tracking-tight">
           Panier
-          <span className="ml-2 text-sm font-normal text-gray-400">({items.reduce((s, i) => s + i.quantity, 0)})</span>
+          <span className="ml-2 text-sm font-normal text-gray-400">({count})</span>
         </h2>
         <button
           onClick={closeSidebar}
@@ -77,11 +78,18 @@ export default function CartSidebar() {
                       <span className="w-10 text-center text-sm font-medium text-gray-900">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="w-7 h-7 rounded-md flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                        disabled={item.quantity >= MAX_QTY_PER_ITEM}
+                        className="w-7 h-7 rounded-md flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                         aria-label="Augmenter"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
+                      {item.quantity >= MAX_QTY_PER_ITEM && (
+                        <span className="ml-2 text-xs text-gray-400 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          Max
+                        </span>
+                      )}
                     </div>
                     <button
                       onClick={() => removeItem(item.product.id)}

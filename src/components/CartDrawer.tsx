@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
-import { createCheckoutSession } from "@/lib/stripe";
+import { createCheckoutSession } from "@/lib/checkout";
 import Image from "next/image";
-import { X, Plus, Minus, Trash2, CreditCard, ShoppingBag } from "lucide-react";
+import { X, Plus, Minus, Trash2, CreditCard, ShoppingBag, AlertCircle } from "lucide-react";
+import { MAX_QTY_PER_ITEM } from "@/lib/config";
 
 export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { items, total, removeItem, updateQuantity, clear } = useCart();
+  const { items, total, count, removeItem, updateQuantity, clear } = useCart();
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
@@ -28,7 +29,7 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
           <h2 className="text-lg font-medium text-gray-900 tracking-tight">
             Panier
-            <span className="ml-2 text-sm font-normal text-gray-400">({items.reduce((s, i) => s + i.quantity, 0)})</span>
+            <span className="ml-2 text-sm font-normal text-gray-400">({count})</span>
           </h2>
           <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors" aria-label="Fermer">
             <X className="w-5 h-5" />
@@ -72,12 +73,19 @@ export default function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClo
                         </button>
                         <span className="w-10 text-center text-sm font-medium text-gray-900">{item.quantity}</span>
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                          className="w-7 h-7 rounded-md flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
-                          aria-label="Augmenter"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </button>
+                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                        disabled={item.quantity >= MAX_QTY_PER_ITEM}
+                        className="w-7 h-7 rounded-md flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        aria-label="Augmenter"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                      {item.quantity >= MAX_QTY_PER_ITEM && (
+                        <span className="ml-2 text-xs text-gray-400 flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          Max
+                        </span>
+                      )}
                       </div>
                       <button
                         onClick={() => removeItem(item.product.id)}

@@ -1,12 +1,13 @@
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/products";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-bg text-text">
-      <Header />
+    <>
+      <a href="#contenu" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-primary text-bg px-4 py-2 rounded">
+        Aller au contenu principal
+      </a>
       <Hero />
       <main id="products" className="page-content py-12 sm:py-16 lg:py-20">
         <div className="mb-10 sm:mb-12">
@@ -15,17 +16,12 @@ export default function HomePage() {
             <span className="text-sm text-text-faint">{products.length} produits</span>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 justify-items-center">
           {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </main>
-      <footer className="border-t border-border py-8 mt-16">
-        <div className="page-content px-4 text-center text-sm text-text-faint">
-          Demo
-        </div>
-      </footer>
-    </div>
+    </>
   );
 }
