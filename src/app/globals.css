@@ -13,6 +13,7 @@
   --surface: #FFFFFF;
   --primary: #0A0A0A;
   --primary-hover: #1A1A1A;
+  --sidebar-width: 0;
 }
 
 @layer base {
@@ -45,6 +46,13 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .page-content {
+    max-width: calc(100% - var(--sidebar-width));
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    transition: max-width 300ms ease;
   }
   .animate-slide-in {
     animation: slideIn 0.2s ease-out;
