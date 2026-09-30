@@ -26,7 +26,7 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
           alt={product.name}
           fill
           className="object-cover transition-opacity duration-normal"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
         />
         <div className="absolute top-3 left-3 right-3 flex flex-wrap gap-2 justify-between">
           {discount !== null && (

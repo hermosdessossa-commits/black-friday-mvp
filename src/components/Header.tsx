@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useCartUI } from "@/lib/cart-ui-context";
 import CartDrawer from "./CartDrawer";
@@ -12,11 +12,24 @@ export default function Header() {
   const [cartOpen, setCartOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
+  const handleResize = useCallback(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+  }, []);
+
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 1024);
-    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    let timeoutId: ReturnType<typeof setTimeout>;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsDesktop(window.innerWidth >= 1024);
+      }, 150);
+    };
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (

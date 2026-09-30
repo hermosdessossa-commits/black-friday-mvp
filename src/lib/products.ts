@@ -3,7 +3,6 @@ export interface Product {
   name: string;
   price: number;
   originalPrice: number;
-  discount: number;
   image: string;
   category: string;
 }
@@ -14,7 +13,6 @@ export const products: Product[] = [
     name: "AirPods Pro 2",
     price: 199,
     originalPrice: 279,
-    discount: 29,
     image: "/Image/air-pod.webp",
     category: "Audio"
   },
@@ -23,7 +21,6 @@ export const products: Product[] = [
     name: "Écouteurs Sans Fil",
     price: 89,
     originalPrice: 149,
-    discount: 40,
     image: "/Image/ecouteur-sans-fil.webp",
     category: "Audio"
   },
@@ -32,7 +29,6 @@ export const products: Product[] = [
     name: "Chaussures Running Pro",
     price: 129,
     originalPrice: 199,
-    discount: 35,
     image: "/Image/Chaussure.webp",
     category: "Sport"
   },
@@ -41,8 +37,25 @@ export const products: Product[] = [
     name: "Panier Connecté",
     price: 49,
     originalPrice: 79,
-    discount: 38,
     image: "/Image/Panier.webp",
     category: "Maison"
   }
 ];
+
+export const categories = [...new Set(products.map(p => p.category))];
+
+export function getProductById(id: string): Product | undefined {
+  return products.find(p => p.id === id);
+}
+
+export function getProductsByCategory(category: string): Product[] {
+  return products.filter(p => p.category === category);
+}
+
+export function getRelatedProducts(productId: string, limit = 4): Product[] {
+  const product = getProductById(productId);
+  if (!product) return [];
+  return products
+    .filter(p => p.category === product.category && p.id !== productId)
+    .slice(0, limit);
+}

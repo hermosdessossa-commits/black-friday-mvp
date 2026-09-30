@@ -1,5 +1,3 @@
-import { products } from "./products";
-
 export function formatPrice(priceCents: number): string {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
@@ -25,17 +23,6 @@ export function getDiscountPercent(price: number, originalPrice: number): number
 
 export function getSavings(price: number, originalPrice: number): number {
   return Math.max(0, originalPrice - price);
-}
-
-export function getMaxDiscount(): number {
-  let max = 0;
-  for (const product of products) {
-    const discount = getDiscountPercent(product.price, product.originalPrice);
-    if (discount !== null && discount > max) {
-      max = discount;
-    }
-  }
-  return max;
 }
 
 export function formatDiscount(discount: number): string {

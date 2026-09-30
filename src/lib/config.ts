@@ -11,7 +11,7 @@ export const SALE_ENDS_AT = new Date("2026-11-30T23:59:59+01:00");
 export const MAX_QTY_PER_ITEM = 10;
 export const MAX_LINES = 20;
 
-export const SHIPPING_COUNTRIES: string[] = ["FR"];
+export const SHIPPING_COUNTRIES: string[] = (process.env.NEXT_PUBLIC_SHIPPING_COUNTRIES || "FR").split(",").map(c => c.trim());
 
 export const COMPANY = {
   name: "[À COMPLÉTER : Nom de l'entreprise]",
