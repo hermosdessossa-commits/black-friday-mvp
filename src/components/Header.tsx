@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-bg/95 backdrop-blur-sm border-b border-border">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[calc(100%-384px)] lg:max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <h1 className="text-lg font-medium text-text tracking-tight">
             Black Friday

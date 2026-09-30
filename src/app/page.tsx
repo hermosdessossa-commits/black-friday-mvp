@@ -24,7 +24,7 @@ export default function HomePage() {
         </div>
       </main>
       <footer className="border-t border-border py-8 mt-16">
-        <div className="max-w-5xl mx-auto px-4 text-center text-sm text-text-faint">
+        <div className="max-w-[calc(100%-384px)] lg:max-w-full mx-auto px-4 text-center text-sm text-text-faint">
           Demo
         </div>
       </footer>
